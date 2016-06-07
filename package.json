@@ -1,0 +1,29 @@
+{
+  "name": "angularjs-tutorial",
+  "version": "1.0.0",
+  "keywords": [
+    "util",
+    "functional",
+    "server",
+    "client",
+    "browser"
+  ],
+  "author": "edicos",
+  "contributors": [],
+  "dependencies": {
+    "angular": "1.5.6",
+    "bootstrap-less":"3.3.8",
+    "jquery":"2.2.4",
+    "bootstrap":"3.3.6"
+  },
+  "main": "Gruntfile.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "scripts": {"start": "node public_html\/index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "ISC",
+  "description": ""
+}
