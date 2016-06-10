@@ -1,51 +1,64 @@
 "use strict";
 // create app.module
-var app = angular.module('app', ['app.users']);
-// init interval-variable
-var intervalID;
+var app = angular.module('app', []);
+// init interval-variable and counters
+var intervalID;var con = 1;var conin = 1;var rn = 1;var rnin = 1;
 
-var con = 1;
-var conin = 1;
-var rn = 1;
-var rnin = 1;
-// 1. Running first when script is included
-
-app.config(function () {
-    console.info("app.config() started the " + con + ". time");
+// 1. Running first when script is included and no dependencies are included
+app.config(function () {    
+    if(con < 1){
+        $('#showBOOTSTRAPPConsole').append("<p>app.config() started the " + con + ". time</p>");
+    }else {
+        $('#showNGAPPConsole').append("<p>app.config() started the " + con + ". time</p>");
+    }
     con++;
+    // checking for ng-app directive is used, or allready deleted
     if ($("body").attr('ng-app') === "app") {
-        console.info("app.config() started inside IF the " + conin + ". time");
+        $('#showNGAPPConsole').append("<p>app.config() started inside IF the " + conin + ". time</p>");
+        $('#showNGAPPConsole').append("<p>app.config() finished "+ conin +".time</p>");
         conin++;
-        console.info("app.config() finished "+ (conin-1) +".time");
+    } else {
+        $('#showBOOTSTRAPConsole').append("<p>app.config() inside ELSE: after bootstrapping-start no ng-app was found in body-tag</p>");
     }
 });
-//Running on init this module
 
+//2. Running after config() has benn finished
 app.run(function () {
-    console.log("app.run() started the " + rn + ". time");
-    rn++;
+    if(rn < 1){
+        $('#showBOOTSTRAPPConsole').append("<p>app.run() started the " + rn + ". time</p>");
+    }else {
+        $('#showNGAPPConsole').append("<p>app.run() started the " + rn + ". time</p>");
+    }
+    rn++;    
+    // checking for ng-app directive is used, or allready deleted
     if ($("body").attr('ng-app') === "app") {
-        console.log("app.run() started the insideIF the " + rnin + ". time (body has ng-app='app')");
+        $('#showNGAPPConsole').append("<p>app.run() started the insideIF the " + rnin + ". time (body has ng-app='app')</p>");
         rnin++;
-        console.log("app.run() insideIF will try to removeAttr('ng-app') & .removeClass('ng-scope')");
+        $('#showNGAPPConsole').append("<p>app.run() insideIF will try to removeAttr('ng-app') & .removeClass('ng-scope')</p>");
+        // remove ng-app and scope
         $("body").removeAttr('ng-app');
         $("body").removeClass("ng-scope");
-        alert("BODY.hasClass('ng-scope')? : "+ $('body').hasClass("ng-scope"));
-        
-        console.log("app.ready() sets trigger on doc.readyState to run angular.bootstrap()");
+        // verify that there is no more angular inside body-tag
+        alert(" Sucessfully removed ng-scope from <body>? -> "+ !($('body').hasClass("ng-scope")));        
+        $('#showNGAPPConsole').append("<p>app.ready() sets trigger on doc.readyState to run angular.bootstrap()</p>");
 // } else{
+        // wait for document.ready and run "manual" angular.bootstrap to add angular again
         intervalID = setInterval(function () {
+            // check readyState
             if (/loaded|complete/i.test(document.readyState)) {
-                console.info("angular.bootstrap() starting");
+                $('#showBOOTSTRAPPConsole').append("<p>angular.bootstrap() starting</p>");
+                // run manual bootstrapping
                 angular.bootstrap(document, ['app']);
+                // stop testing the readyState
                 clearInterval(intervalID);
-                if ($('body').hasClass("ng-scope")) {
-                    console.info("angular.app has been started again, now via bootstrap() starting");
+                // check wheather angular is in body-tag AGAIN and report
+                if ($('body').hasClass("ng-scope")) {                    
+                   $('#showBOOTSTRAPPConsole').append("<p>angular.app starting again via .bootstrap() completed!!!</p>");
                 }
             }
         }, 10);
     } else {
-        
-        console.info("angular.app starting again via bootstrap() FINISHED!!!");
+        // bootsrapping sucessfully added ng-app again
+         $('#showBOOTSTRAPPConsole').append("<p>app.run() insideELSE, angular.app was started by .bootstrap()</p>");
     }
 });
