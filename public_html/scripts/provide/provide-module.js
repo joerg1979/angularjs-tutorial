@@ -1,12 +1,11 @@
-var app = angular.module('app',['sdfsdf']);
+var providerDemo = angular.module('providerDemo',[]);
     
-app.config( function ( sdfsd ){
-    app.value('key','value');
-    sdfsd.value('prokey','pro-value');
-            
+providerDemo.config( function ( $provide ){
+    $provide.value('pro1','Wert in pro1');
+    $provide.value('pro2','Wert in pro2');            
 });
 
-app.run( function ( key, prokey){
-
+providerDemo.run( function ( pro1, pro2){
+    
 });
 
